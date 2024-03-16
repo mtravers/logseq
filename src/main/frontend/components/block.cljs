@@ -2415,9 +2415,9 @@
 ;;; Block timestamps
 
 ;;; TODO should be customizable
-;;; TODO omit day on journal pages (optionally)
-;;; TODO option to also shore created-at time
+;;; TODO option to also show created-at time
 (def ts-formatter (tf/formatter "M-d-YY H:mm"))
+(def ts-formatter-journal (tf/formatter "H:mm"))
 
 ;;; Similar to cljs-time.coerce/from-long but respects local timezone
 (defn time-from-long
@@ -2433,7 +2433,10 @@
        :on-click (fn [e]
                    (prn :toggle-timestamps) ;TODO!
                    )}
-      (tf/unparse ts-formatter (time-from-long timestamp))
+      (tf/unparse (if (:block/journal-day (:block/page block))
+                    ts-formatter-journal
+                    ts-formatter)
+                  (time-from-long timestamp))
       ]]))
 
 (rum/defcs block-content-or-editor < rum/reactive
