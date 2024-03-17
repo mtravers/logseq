@@ -2417,7 +2417,7 @@
 ;;; TODO should be customizable
 ;;; TODO option to also show created-at time
 (def ts-formatter (tf/formatter "M-d-YY H:mm"))
-(def ts-formatter-journal (tf/formatter "H:mm"))
+(def ts-formatter-journal (tf/formatter "h:mm"))
 
 ;;; Similar to cljs-time.coerce/from-long but respects local timezone
 (defn time-from-long
