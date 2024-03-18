@@ -15,7 +15,10 @@
             [frontend.util.text :as text-util]
             [goog.object :as gobj]
             [reitit.frontend.easy :as rfe]
-            [rum.core :as rum]))
+            [rum.core :as rum]
+            [cljs-time.core :as t]
+            [cljs-time.format :as tf]
+            ))
 
 (rum/defc blocks-cp < rum/reactive db-mixins/query
   {}
@@ -53,7 +56,15 @@
                          :page))
                       (.preventDefault e)))}
        [:h1.title
-        (gp-util/capitalize-all title)]]
+        (gp-util/capitalize-all title)
+        ;; Add day of week.
+        ;; TODO place under option, maybe with formatting control
+        [:span.font-light.opacity-50 
+         " "
+         (tf/unparse (tf/formatter "EEEE")
+                     (date/journal-day->real-ts (:block/journal-day page-entity)))
+         ]
+        ]]
 
       (if today?
         (blocks-cp repo page)
